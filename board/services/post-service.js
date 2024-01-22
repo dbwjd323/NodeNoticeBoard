@@ -41,8 +41,32 @@ async function getDetailPost(collection, id){
     return await collection.findOneAndUpdate({_id: ObjectId(id)}, {$inc: {hits: 1}}, projectOption);
 }
 
+async function getPostByIdAndPassword(collection, {id, password}){
+    //findOne()
+    return await collection.findOne({_id: ObjectID(id), password:password},
+    projectOption);
+}
+
+//id로 데이터 불러오기
+async function getPostById(collection, id){
+    return await collection.findOne({_id: ObjectId(id)}, projectOption);
+}
+
+//게시글 수정
+async function updatePost(collection, id, post){
+    const toUpdatePost = {
+        $set : {
+            ...post,
+        },
+    };
+    return await collection.updateOne({_id: ObjectId(id)}, toUpdatePosst);
+}
+
 module.exports ={
     list,
     writePost,
     getDetailPost,
+    getPostById,
+    getPostByIdAndPassword,
+    updatePost,
 }
