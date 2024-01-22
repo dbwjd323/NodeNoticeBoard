@@ -44,4 +44,5 @@ async function getDetailPost(collection, id){
 module.exports ={
     list,
     writePost,
+    getDetailPost,
 }
