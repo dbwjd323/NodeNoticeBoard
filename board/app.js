@@ -78,7 +78,7 @@ app.post("/check-password", async (req, res)=>{
 
 //수정 페이지로 이동 mode는 modify
 app.get("/modify/:id", async (req, res)=>{
-    const {id} =req.params.id;
+    const { id } =req.params.id;
     //getPostById() 함수로 게시글 데이터 받아옴
     const post = await postService.getPostById(collection, req.params.id);
     console.log(post);
@@ -99,7 +99,7 @@ app.post("/modify/", async (req, res)=>{
 
     //업데이트 결과
     const result = postService.updatePost(collection, id, post);
-    res.redirect('/detail/${id');
+    res.redirect(`/detail/${id}`);
 });
 
 let collection;
