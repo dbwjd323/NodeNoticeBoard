@@ -1,6 +1,7 @@
 const express = require("express");
 const handlebars = require("express-handlebars");
 const app = express();
+const {ObjectId} = require("mongodb");
 
 //req.body와 POST 요청을 해석하기 위한 설정
 app.use(express.json());
@@ -100,6 +101,25 @@ app.post("/modify/", async (req, res)=>{
     //업데이트 결과
     const result = postService.updatePost(collection, id, post);
     res.redirect(`/detail/${id}`);
+});
+
+//게시글 삭제
+app.delete("/delete", async(req, res) =>{
+    const {id, password} = req.body;
+    try{
+        //collection의 deleteOne을 사용해 게시글 하나 삭제
+        const result = await collection.deleteOne({_id: ObjectId(id), password: password});
+        //삭제 결과가 잘못된 경우의 처리
+        if(result.deleteCount !== 1){
+            console.log("삭제 실패");
+            return res.json({isSuccess: false});
+        }
+        return res.json({isSuccess: true});
+    }catch (error){
+        //error가 난 경우
+        console.error(error);
+        return res.json({isSuccess: false});
+    }
 });
 
 let collection;
